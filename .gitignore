@@ -45,3 +45,12 @@ app.*.map.json
 
 # FVM
 .fvm/flutter_sdk
+
+# Freezed
+**.freezed.dart
+
+# Mockito
+**.mocks.dart
+
+# Test
+coverage/
