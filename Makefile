@@ -55,11 +55,15 @@ analyze: ## Analyze Dart code of the project
 format-analyze: format analyze ## Format & Analyze Dart code of the project
 
 .PHONY: test
-test: ## Run all tests
+test: ## Run all tests with coverage (lcov)
+	@$(call print_color_message,"Run all tests with coverage (lcov)")
 	$(FLUTTER) test \
 		--coverage \
 		--test-randomize-ordering-seed random \
 		--reporter expanded
+	genhtml coverage/lcov.info \
+		--output-directory coverage/html
+	open coverage/html/index.html
 
 .PHONY: devtools
 devtools: ## Serving DevTools
