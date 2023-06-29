@@ -1,1 +1,1 @@
-export 'marvel/_marvel.dart';
+export 'comic/_comic.dart';

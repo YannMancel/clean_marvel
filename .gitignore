@@ -49,6 +49,12 @@ app.*.map.json
 # Freezed
 **.freezed.dart
 
+# Isar
+**.g.dart
+default.isar
+default.isar.lock
+libisar.dylib
+
 # Mockito
 **.mocks.dart
 

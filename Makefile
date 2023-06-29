@@ -3,6 +3,9 @@ FLUTTER_VERSION?=3.10.5
 FLUTTER?=fvm flutter
 REPOSITORIES?=lib/ test/
 RUN_VERSION?=--debug
+TIMESTAMP=[TIMESTAMP]
+API_KEY=[API_KEY]
+HASH=[HASH]
 
 GREEN_COLOR=\033[32m
 NO_COLOR=\033[0m
@@ -55,9 +58,10 @@ analyze: ## Analyze Dart code of the project
 format-analyze: format analyze ## Format & Analyze Dart code of the project
 
 .PHONY: test
-test: ## Run all tests with coverage (lcov)
-	@$(call print_color_message,"Run all tests with coverage (lcov)")
+test: ## Run all tests with coverage - Isar needs to [--concurrency=1] or [-j 1]
+	@$(call print_color_message,"Run all tests with coverage - Isar needs to [--concurrency=1] or [-j 1]")
 	$(FLUTTER) test \
+		--concurrency=1 \
 		--coverage \
 		--test-randomize-ordering-seed random \
 		--reporter expanded
@@ -83,7 +87,11 @@ outdated: ## Check the version of packages
 .PHONY: run
 run: ## Run application by default debug version
 	@$(call print_color_message,"Run application by default debug version")
-	$(FLUTTER) run $(RUN_VERSION)
+	$(FLUTTER) run \
+		$(RUN_VERSION) \
+		--dart-define TIMESTAMP=$(TIMESTAMP) \
+		--dart-define API_KEY=$(API_KEY) \
+		--dart-define HASH=$(HASH)
 
 ##
 ## ---------------------------------------------------------------
@@ -95,6 +103,22 @@ run: ## Run application by default debug version
 generate-files: ## Generate files with build_runner
 	@$(call print_color_message,"Generate files with build_runner")
 	$(FLUTTER) pub run build_runner build --delete-conflicting-outputs
+
+##
+## ---------------------------------------------------------------
+## scrcpy
+## ---------------------------------------------------------------
+##
+
+.PHONY: mirror
+mirror: ## Mirror screen with scrcpy
+	@$(call print_color_message,"Mirror screen with scrcpy")
+	scrcpy --max-size 1024 --window-title 'My device'
+
+.PHONY: record
+record: ## Record screen with scrcpy
+	@$(call print_color_message,"Record screen with scrcpy")
+	scrcpy --max-size 1024 --no-display --record "flutter_$(shell date +%Y%m%d-%H%M%S).mp4"
 
 #
 # ----------------------------------------------------------------
