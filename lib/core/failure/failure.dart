@@ -4,7 +4,7 @@ part 'failure.freezed.dart';
 
 @freezed
 class Failure with _$Failure implements Exception {
-  const factory Failure.server() = _Servor;
-  const factory Failure.cache() = _Cache;
-  const factory Failure.unknown() = _Unknown;
+  const factory Failure.server() = ServerFailure;
+  const factory Failure.cache() = CacheFailure;
+  const factory Failure.unknown() = UnknownFailure;
 }

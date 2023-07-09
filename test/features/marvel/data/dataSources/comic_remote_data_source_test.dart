@@ -1,43 +1,58 @@
 import 'package:clean_marvel/core/_core.dart';
 import 'package:clean_marvel/features/comic/data/_data.dart';
+import 'package:dio/dio.dart' as https;
 import 'package:flutter_test/flutter_test.dart';
-import 'package:http/http.dart' as http;
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
 import '../../../../helpers/helpers.dart';
 @GenerateNiceMocks(
   <MockSpec>[
-    MockSpec<http.Client>(as: #MockHttpsClient),
+    MockSpec<https.Dio>(as: #MockHttpsDio),
   ],
 )
 import 'comic_remote_data_source_test.mocks.dart';
 
 void main() {
-  late http.Client client;
+  late https.Dio httpsClient;
   late ComicRemoteDataSourceInterface remoteDataSource;
+  late String endpoint;
 
   group('ComicRemoteDataSource', () {
     setUp(() async {
-      client = MockHttpsClient();
-      remoteDataSource = ComicRemoteDataSource(client: client);
+      httpsClient = MockHttpsDio();
+      remoteDataSource = ComicRemoteDataSource(dio: httpsClient);
+      endpoint = (remoteDataSource as ComicRemoteDataSource).charactersEndpoint;
+    });
+
+    test('should return a BaseOptions of Dio.', () async {
+      expect(ComicRemoteDataSource.options, isA<https.BaseOptions>());
     });
 
     test(
       'should be success when network call return 200 with correct models.',
       () async {
-        final uri =
-            (remoteDataSource as ComicRemoteDataSource).comicCharacterModelUri;
-        final body = convertFileToString(path: 'test/fixtures/api.json');
+        final data = convertFileToString(path: 'test/fixtures/api.json');
 
-        when(client.get(uri, headers: anyNamed('headers')))
-            .thenAnswer((_) async => http.Response(body, 200));
+        when(httpsClient.get(
+          endpoint,
+          queryParameters: anyNamed('queryParameters'),
+        )).thenAnswer((_) async => https.Response(
+              data: data,
+              statusCode: 200,
+              requestOptions: https.RequestOptions(path: endpoint),
+            ));
 
         final models = await remoteDataSource.getComicCharacters();
 
-        expect(models, <ComicCharacterModel>[kModel]);
-        verify(client.get(uri, headers: anyNamed('headers'))).called(1);
-        verifyNoMoreInteractions(client);
+        expect(models, kModels);
+        verify(
+          httpsClient.get(
+            endpoint,
+            queryParameters: anyNamed('queryParameters'),
+          ),
+        ).called(1);
+        verifyNoMoreInteractions(httpsClient);
       },
     );
 
@@ -45,18 +60,27 @@ void main() {
       'should be success when network call return 200 with no model '
       '(without data key).',
       () async {
-        final uri =
-            (remoteDataSource as ComicRemoteDataSource).comicCharacterModelUri;
-        final body = convertFileToString(path: 'test/fixtures/empty.json');
+        final data = convertFileToString(path: 'test/fixtures/empty.json');
 
-        when(client.get(uri, headers: anyNamed('headers')))
-            .thenAnswer((_) async => http.Response(body, 200));
+        when(httpsClient.get(
+          endpoint,
+          queryParameters: anyNamed('queryParameters'),
+        )).thenAnswer((_) async => https.Response(
+              data: data,
+              statusCode: 200,
+              requestOptions: https.RequestOptions(path: endpoint),
+            ));
 
         final models = await remoteDataSource.getComicCharacters();
 
         expect(models, List<ComicCharacterModel>.empty());
-        verify(client.get(uri, headers: anyNamed('headers'))).called(1);
-        verifyNoMoreInteractions(client);
+        verify(
+          httpsClient.get(
+            endpoint,
+            queryParameters: anyNamed('queryParameters'),
+          ),
+        ).called(1);
+        verifyNoMoreInteractions(httpsClient);
       },
     );
 
@@ -64,54 +88,81 @@ void main() {
       'should be success when network call return 200 with no model '
       '(without results key).',
       () async {
-        final uri =
-            (remoteDataSource as ComicRemoteDataSource).comicCharacterModelUri;
-        final body = convertFileToString(
+        final data = convertFileToString(
           path: 'test/fixtures/api-with-no-results.json',
         );
 
-        when(client.get(uri, headers: anyNamed('headers')))
-            .thenAnswer((_) async => http.Response(body, 200));
+        when(httpsClient.get(
+          endpoint,
+          queryParameters: anyNamed('queryParameters'),
+        )).thenAnswer((_) async => https.Response(
+              data: data,
+              statusCode: 200,
+              requestOptions: https.RequestOptions(path: endpoint),
+            ));
 
         final models = await remoteDataSource.getComicCharacters();
 
         expect(models, List<ComicCharacterModel>.empty());
-        verify(client.get(uri, headers: anyNamed('headers'))).called(1);
-        verifyNoMoreInteractions(client);
+        verify(
+          httpsClient.get(
+            endpoint,
+            queryParameters: anyNamed('queryParameters'),
+          ),
+        ).called(1);
+        verifyNoMoreInteractions(httpsClient);
       },
     );
 
     test(
       'should be fail with network call return 404.',
       () async {
-        final uri =
-            (remoteDataSource as ComicRemoteDataSource).comicCharacterModelUri;
-
-        when(client.get(uri, headers: anyNamed('headers')))
-            .thenAnswer((_) async => http.Response('FAKE_BODY', 404));
+        when(httpsClient.get(
+          endpoint,
+          queryParameters: anyNamed('queryParameters'),
+        )).thenAnswer((_) async => https.Response(
+              data: 'FAKE_DATA',
+              statusCode: 404,
+              requestOptions: https.RequestOptions(path: endpoint),
+            ));
 
         final call = remoteDataSource.getComicCharacters;
 
-        expect(() async => call(), throwsA(const TypeMatcher<Failure>()));
-        verify(client.get(uri, headers: anyNamed('headers'))).called(1);
-        verifyNoMoreInteractions(client);
+        expect(
+          () async => call(),
+          throwsA(const TypeMatcher<ServerFailure>()),
+        );
+        verify(
+          httpsClient.get(
+            endpoint,
+            queryParameters: anyNamed('queryParameters'),
+          ),
+        ).called(1);
+        verifyNoMoreInteractions(httpsClient);
       },
     );
 
     test(
       'should be fail when network call is fail.',
       () async {
-        final uri =
-            (remoteDataSource as ComicRemoteDataSource).comicCharacterModelUri;
-
-        when(client.get(uri, headers: anyNamed('headers')))
-            .thenThrow(basicException);
+        when(httpsClient.get(
+          endpoint,
+          queryParameters: anyNamed('queryParameters'),
+        )).thenThrow(basicException);
 
         final call = remoteDataSource.getComicCharacters;
 
-        expect(() async => call(), throwsA(const TypeMatcher<Failure>()));
-        verify(client.get(uri, headers: anyNamed('headers'))).called(1);
-        verifyNoMoreInteractions(client);
+        expect(
+          () async => call(),
+          throwsA(const TypeMatcher<UnknownFailure>()),
+        );
+        verify(
+          httpsClient.get(
+            endpoint,
+            queryParameters: anyNamed('queryParameters'),
+          ),
+        ).called(1);
+        verifyNoMoreInteractions(httpsClient);
       },
     );
   });

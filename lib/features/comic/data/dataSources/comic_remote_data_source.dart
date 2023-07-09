@@ -2,53 +2,34 @@ import 'dart:convert';
 
 import 'package:clean_marvel/core/_core.dart';
 import 'package:clean_marvel/features/comic/data/_data.dart';
+import 'package:dio/dio.dart' as https;
 import 'package:flutter/foundation.dart';
-import 'package:http/http.dart' as http;
 
 /// The data source allows to manage in remote way.
 ///
 /// ```dart
-/// final client = http.Client();
-/// final remoteDataSource = ComicRemoteDataSource(client: client);
+/// final dio = https.Dio()..options = ComicRemoteDataSource.options;
+///
+/// final remoteDataSource = ComicRemoteDataSource(dio: dio);
 /// ```
 class ComicRemoteDataSource implements ComicRemoteDataSourceInterface {
-  const ComicRemoteDataSource({required http.Client client}) : _client = client;
+  ComicRemoteDataSource({required https.Dio dio}) : _dio = dio;
 
-  final http.Client _client;
+  final https.Dio _dio;
 
-  static const kBaseUrl = 'gateway.marvel.com';
-  static const kCharactersEndPoint = '/v1/public/characters';
-  static const kHeaders = <String, String>{'Content-Type': 'application/json'};
-  static const kTimestamp = String.fromEnvironment(
-    'TIMESTAMP',
-    defaultValue: '[TIMESTAMP]',
-  );
-  static const kApikey = String.fromEnvironment(
-    'API_KEY',
-    defaultValue: '[API_KEY]',
-  );
-  static const kHash = String.fromEnvironment(
-    'HASH',
-    defaultValue: '[HASH]',
+  static https.BaseOptions options = https.BaseOptions(
+    baseUrl: 'https://gateway.marvel.com',
+    connectTimeout: const Duration(seconds: 5),
+    receiveTimeout: const Duration(seconds: 3),
   );
 
   @visibleForTesting
-  Uri get comicCharacterModelUri {
-    return Uri.https(
-      kBaseUrl,
-      kCharactersEndPoint,
-      const <String, dynamic>{
-        'ts': kTimestamp,
-        'apikey': kApikey,
-        'hash': kHash,
-      },
-    );
-  }
+  String get charactersEndpoint => '/v1/public/characters';
 
-  List<ComicCharacterModel> _parseModelsByResponse(http.Response response) {
+  List<ComicCharacterModel> _parseModelsByResponse(https.Response response) {
     switch (response.statusCode) {
       case 200:
-        final json = jsonDecode(response.body) as Map<String, dynamic>;
+        final json = jsonDecode(response.data) as Map<String, dynamic>;
 
         if (!json.containsKey('data')) {
           return List<ComicCharacterModel>.empty();
@@ -74,13 +55,26 @@ class ComicRemoteDataSource implements ComicRemoteDataSourceInterface {
   @override
   Future<List<ComicCharacterModel>> getComicCharacters() async {
     try {
-      final response = await _client.get(
-        comicCharacterModelUri,
-        headers: kHeaders,
+      final response = await _dio.get(
+        charactersEndpoint,
+        queryParameters: const <String, dynamic>{
+          'ts': String.fromEnvironment(
+            'TIMESTAMP',
+            defaultValue: '[TIMESTAMP]',
+          ),
+          'apikey': String.fromEnvironment(
+            'API_KEY',
+            defaultValue: '[API_KEY]',
+          ),
+          'hash': String.fromEnvironment(
+            'HASH',
+            defaultValue: '[HASH]',
+          ),
+        },
       );
 
       return _parseModelsByResponse(response);
-    } on Failure catch (_) {
+    } on Failure {
       rethrow;
     } catch (_) {
       throw const Failure.unknown();
