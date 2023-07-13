@@ -22,7 +22,7 @@ void main() {
     setUp(() async {
       httpsClient = MockHttpsDio();
       remoteDataSource = ComicRemoteDataSource(dio: httpsClient);
-      endpoint = (remoteDataSource as ComicRemoteDataSource).charactersEndpoint;
+      endpoint = Api.kCharacters.kEndpoint;
     });
 
     test('should return a BaseOptions of Dio.', () async {

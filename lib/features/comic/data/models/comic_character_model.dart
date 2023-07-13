@@ -1,3 +1,4 @@
+import 'package:clean_marvel/core/_core.dart';
 import 'package:clean_marvel/features/comic/domain/_domain.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:isar/isar.dart';
@@ -7,7 +8,7 @@ part 'comic_character_model.g.dart';
 
 @freezed
 @Collection(
-  accessor: 'comicCharacters',
+  accessor: kComicCharacters,
   ignore: {
     'copyWith',
     'convertToEntity',
@@ -22,12 +23,18 @@ class ComicCharacterModel with _$ComicCharacterModel {
   }) = _Model;
 
   factory ComicCharacterModel.fromJson(Map<String, dynamic> json) {
-    final name = json['name'] ?? '';
-    final thumbnailOrNull = json['thumbnail'] as Map<String, dynamic>?;
-    final hasPathKey = thumbnailOrNull?.containsKey('path') ?? false;
-    final hasExtensionKey = thumbnailOrNull?.containsKey('extension') ?? false;
+    final kNameKey = Api.kCharacters.kJson.kName;
+    final kThumbnailKey = Api.kCharacters.kJson.kThumbnail;
+    final kPathKey = Api.kCharacters.kJson.kPath;
+    final kExtensionKey = Api.kCharacters.kJson.kExtension;
+
+    final name = json[kNameKey] ?? '';
+    final thumbnailOrNull = json[kThumbnailKey] as Map<String, dynamic>?;
+    final hasPathKey = thumbnailOrNull?.containsKey(kPathKey) ?? false;
+    final hasExtensionKey =
+        thumbnailOrNull?.containsKey(kExtensionKey) ?? false;
     final imageUrl = hasPathKey && hasExtensionKey
-        ? '${thumbnailOrNull!['path']}.${thumbnailOrNull['extension']}'
+        ? '${thumbnailOrNull![kPathKey]}.${thumbnailOrNull[kExtensionKey]}'
         : '';
 
     return ComicCharacterModel(
@@ -40,8 +47,8 @@ class ComicCharacterModel with _$ComicCharacterModel {
 
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
-      'name': name,
-      'imageUrl': imageUrl,
+      Api.kCharacters.kJson.kName: name,
+      kImageUrl: imageUrl,
     };
   }
 
