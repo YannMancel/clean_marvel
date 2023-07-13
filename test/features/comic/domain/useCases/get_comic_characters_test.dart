@@ -18,7 +18,7 @@ void main() {
   group('GetComicCharacters', () {
     setUp(() {
       repository = MockComicRepositoryInterface();
-      useCase = GetComicCharacters(repository);
+      useCase = GetComicCharacters(repository: repository);
     });
 
     test('should be a success when use case is called.', () async {
