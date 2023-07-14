@@ -82,7 +82,7 @@ void main() {
 
       final result = await repository.getComicCharacters();
 
-      expect(result, kResultOfErrorWithUnknownFailure);
+      expect(result, resultOfError(exception: kUnknownFailure));
       verify(networkData.isConnected).called(1);
       verifyNever(localDataSource.getComicCharacters());
       verifyNever(remoteDataSource.getComicCharacters());
@@ -100,7 +100,7 @@ void main() {
 
         final result = await repository.getComicCharacters();
 
-        expect(result, kResultOfErrorWithServerFailure);
+        expect(result, resultOfError(exception: kServerFailure));
         verify(networkData.isConnected).called(1);
         verify(remoteDataSource.getComicCharacters()).called(1);
         verifyNever(localDataSource.getComicCharacters());
@@ -122,7 +122,7 @@ void main() {
 
         final result = await repository.getComicCharacters();
 
-        expect(result, kResultOfErrorWithCacheFailure);
+        expect(result, resultOfError(exception: kCacheFailure));
         verify(networkData.isConnected).called(1);
         verify(remoteDataSource.getComicCharacters()).called(1);
         verify(localDataSource.cacheComicCharacters(kModels)).called(1);
@@ -142,7 +142,7 @@ void main() {
 
         final result = await repository.getComicCharacters();
 
-        expect(result, kResultOfErrorWithCacheFailure);
+        expect(result, resultOfError(exception: kCacheFailure));
         verify(networkData.isConnected).called(1);
         verify(localDataSource.getComicCharacters()).called(1);
         verifyNever(remoteDataSource.getComicCharacters());

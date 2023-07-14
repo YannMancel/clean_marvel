@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:clean_marvel/core/_core.dart';
 import 'package:clean_marvel/features/comic/data/_data.dart';
 import 'package:dio/dio.dart' as https;
@@ -8,7 +6,6 @@ import 'package:dio/dio.dart' as https;
 ///
 /// ```dart
 /// final dio = https.Dio()..options = ComicRemoteDataSource.options;
-///
 /// final remoteDataSource = ComicRemoteDataSource(dio: dio);
 /// ```
 class ComicRemoteDataSource implements ComicRemoteDataSourceInterface {
@@ -25,7 +22,7 @@ class ComicRemoteDataSource implements ComicRemoteDataSourceInterface {
   List<ComicCharacterModel> _parseModelsByResponse(https.Response response) {
     switch (response.statusCode) {
       case 200:
-        final json = jsonDecode(response.data) as Map<String, dynamic>;
+        final json = response.data as Map<String, dynamic>;
 
         final kDataKey = Api.kCharacters.kJson.kData;
         if (!json.containsKey(kDataKey)) {

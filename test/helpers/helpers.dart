@@ -44,11 +44,8 @@ const kServerFailure = Failure.server();
 
 // RESULT ----------------------------------------------------------------------
 final resultOfData = Result<List<ComicCharacterEntity>>.data(entities);
-final resultOfErrorWithBasicException =
-    Result<List<ComicCharacterEntity>>.error(exception: basicException);
-const kResultOfErrorWithUnknownFailure =
-    Result<List<ComicCharacterEntity>>.error(exception: kUnknownFailure);
-const kResultOfErrorWithServerFailure =
-    Result<List<ComicCharacterEntity>>.error(exception: kServerFailure);
-const kResultOfErrorWithCacheFailure =
-    Result<List<ComicCharacterEntity>>.error(exception: kCacheFailure);
+Result<List<ComicCharacterEntity>> resultOfError({
+  required Exception exception,
+}) {
+  return Result<List<ComicCharacterEntity>>.error(exception: exception);
+}

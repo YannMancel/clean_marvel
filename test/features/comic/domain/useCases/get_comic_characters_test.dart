@@ -13,7 +13,7 @@ import 'get_comic_characters_test.mocks.dart';
 
 void main() {
   late ComicRepositoryInterface repository;
-  late GetComicCharacters useCase;
+  late UseCaseInterface<List<ComicCharacterEntity>> useCase;
 
   group('GetComicCharacters', () {
     setUp(() {
@@ -25,7 +25,7 @@ void main() {
       when(repository.getComicCharacters())
           .thenAnswer((_) async => resultOfData);
 
-      final result = await useCase.execute();
+      final result = await useCase();
 
       expect(result, resultOfData);
       verify(repository.getComicCharacters()).called(1);
@@ -34,11 +34,11 @@ void main() {
 
     test('should be a fail when use case is called.', () async {
       when(repository.getComicCharacters())
-          .thenAnswer((_) async => resultOfErrorWithBasicException);
+          .thenAnswer((_) async => resultOfError(exception: basicException));
 
-      final result = await useCase.execute();
+      final result = await useCase();
 
-      expect(result, resultOfErrorWithBasicException);
+      expect(result, resultOfError(exception: basicException));
       verify(repository.getComicCharacters()).called(1);
       verifyNoMoreInteractions(repository);
     });

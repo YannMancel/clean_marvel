@@ -40,3 +40,6 @@ const kComicCharacters = 'comicCharacters';
 
 // [TO JSON]
 const kImageUrl = 'imageUrl';
+
+// [GENERAL]
+const kAppTitle = 'Marvel';

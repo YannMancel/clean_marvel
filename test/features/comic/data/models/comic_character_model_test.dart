@@ -11,14 +11,14 @@ void main() {
     });
 
     test('should be a success when the creation is from empty json.', () {
-      final json = convertFileToJson(path: 'test/fixtures/empty.json');
+      final json = convertFileToJson(path: './test/fixtures/empty.json');
       final actual = ComicCharacterModel.fromJson(json);
 
       expect(actual, kEmptyEntity);
     });
 
     test('should be a success when the creation is from correct json.', () {
-      final json = convertFileToJson(path: 'test/fixtures/model.json');
+      final json = convertFileToJson(path: './test/fixtures/model.json');
       final actual = ComicCharacterModel.fromJson(json);
 
       expect(actual, kModel);

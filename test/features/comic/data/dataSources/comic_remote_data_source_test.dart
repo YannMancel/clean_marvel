@@ -32,7 +32,7 @@ void main() {
     test(
       'should be success when network call return 200 with correct models.',
       () async {
-        final data = convertFileToString(path: 'test/fixtures/api.json');
+        final data = convertFileToJson(path: './test/fixtures/api.json');
 
         when(httpsClient.get(
           endpoint,
@@ -60,7 +60,7 @@ void main() {
       'should be success when network call return 200 with no model '
       '(without data key).',
       () async {
-        final data = convertFileToString(path: 'test/fixtures/empty.json');
+        final data = convertFileToJson(path: './test/fixtures/empty.json');
 
         when(httpsClient.get(
           endpoint,
@@ -88,8 +88,8 @@ void main() {
       'should be success when network call return 200 with no model '
       '(without results key).',
       () async {
-        final data = convertFileToString(
-          path: 'test/fixtures/api-with-no-results.json',
+        final data = convertFileToJson(
+          path: './test/fixtures/api-with-no-results.json',
         );
 
         when(httpsClient.get(

@@ -8,7 +8,7 @@ class ComicCharactersBloc
     extends Bloc<ComicCharactersEvent, ComicCharactersState> {
   ComicCharactersBloc({
     ComicCharactersState? initialState,
-    required GetComicCharacters useCase,
+    required UseCaseInterface<List<ComicCharacterEntity>> useCase,
   })  : _useCase = useCase,
         super(
           initialState ?? const ComicCharactersState.loading(),
@@ -17,7 +17,7 @@ class ComicCharactersBloc
     on<RefreshedEvent>(_onRefreshed);
   }
 
-  final GetComicCharacters _useCase;
+  final UseCaseInterface<List<ComicCharacterEntity>> _useCase;
 
   FutureOr<void> _onStarted(
     StartedEvent event,
@@ -27,7 +27,7 @@ class ComicCharactersBloc
       const ComicCharactersState.loading(),
     );
 
-    final result = await _useCase.execute();
+    final result = await _useCase();
 
     emit(
       result.when<ComicCharactersState>(

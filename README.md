@@ -3,38 +3,61 @@
 # clean_marvel
 **Goal**: A Flutter project to learn clean architecture.
 
-## Requirements
-* Computer (Windows, Mac or Linux)
-* Android Studio or VS Code
+## Getting Started
 
-## Setup the project in Android studio
-1. Download the project code, preferably using `git clone git@github.com:YannMancel/clean_marvel.git`.
-2. In Android Studio, select *File* | *Open...*
-3. Select the project
+### Prerequisites
+* Computer (Windows, Mac or Linux)
+* IDE (Android Studio or Visual Studio Code)
+* [fvm][dependency_fvm]
+* Account on [https://developer.marvel.com/][link_developer_marvel] (TIMESTAMP, API_KEY, HASH)
+
+### Installation
+
+```sh
+# Download the project code
+git clone git@github.com:YannMancel/clean_marvel.git
+
+# Install environment
+make install
+
+# Update dependencies
+make dependencies
+
+# Generate files with build_runner
+make generate-files
+
+# Run application by default debug version
+make run TIMESTAMP=[TIMESTAMP] API_KEY=[API_KEY] HASH=[HASH]
+```
 
 ## Dependencies
 * Flutter Version Management
-  * [fvm][dependencies_fvm]
+  * [fvm][dependency_fvm]
 * Linter
-  * [flutter_lints][dependencies_flutter_lints]
+  * [flutter_lints][dependency_flutter_lints]
 * Data class generator
-  * [build_runner][dependencies_build_runner]
-  * [freezed][dependencies_freezed]
-  * [freezed_annotation][dependencies_freezed_annotation]
+  * [build_runner][dependency_build_runner]
+  * [freezed][dependency_freezed]
+  * [freezed_annotation][dependency_freezed_annotation]
 * State manager
-  * [flutter_bloc][dependencies_flutter_bloc]
+  * [flutter_bloc][dependency_flutter_bloc]
 * Local Database
-  * [isar][dependencies_isar]
-  * [isar_flutter_libs][dependencies_isar_flutter_libs]
-  * [isar_generator][dependencies_isar_generator]
+  * [isar][dependency_isar]
+  * [isar_flutter_libs][dependency_isar_flutter_libs]
+  * [isar_generator][dependency_isar_generator]
 * Network
-  * [dio][dependencies_dio]
-  * [internet_connection_checker][dependencies_internet_connection_checker]
+  * [dio][dependency_dio]
+  * [internet_connection_checker][dependency_internet_connection_checker]
+* Image Cache
+  * [cached_network_image][dependency_cached_network_image]
+  * [flutter_cache_manager][dependency_flutter_cache_manager]
 * Path
-  * [path_provider][dependencies_path_provider]
+  * [path_provider][dependency_path_provider]
+* Service Locator
+  * [get_it][dependency_get_it]
 * Tests
-  * [mockito][dependencies_mockito]
-  * [bloc_test][dependencies_bloc_test]
+  * [mockito][dependency_mockito]
+  * [bloc_test][dependency_bloc_test]
 
 ## Database
 ```mermaid
@@ -64,20 +87,24 @@ comicCharacters {
 
 [badge_flutter]: https://img.shields.io/badge/flutter-v3.10.5-blue?logo=flutter
 [link_flutter_release]: https://docs.flutter.dev/development/tools/sdk/releases
+[link_developer_marvel]: https://developer.marvel.com/
 [dependencies_fvm]: https://fvm.app/
-[dependencies_flutter_lints]: https://pub.dev/packages/flutter_lints
-[dependencies_build_runner]: https://pub.dev/packages/build_runner
-[dependencies_freezed]: https://pub.dev/packages/freezed
-[dependencies_freezed_annotation]: https://pub.dev/packages/freezed_annotation
-[dependencies_flutter_bloc]: https://pub.dev/packages/flutter_bloc
-[dependencies_isar]: https://pub.dev/packages/isar
-[dependencies_isar_flutter_libs]: https://pub.dev/packages/isar_flutter_libs
-[dependencies_isar_generator]: https://pub.dev/packages/isar_generator
-[dependencies_dio]: https://pub.dev/packages/dio
-[dependencies_internet_connection_checker]: https://pub.dev/packages/internet_connection_checker
-[dependencies_path_provider]: https://pub.dev/packages/path_provider
-[dependencies_mockito]: https://pub.dev/packages/mockito
-[dependencies_bloc_test]: https://pub.dev/packages/bloc_test
+[dependency_flutter_lints]: https://pub.dev/packages/flutter_lints
+[dependency_build_runner]: https://pub.dev/packages/build_runner
+[dependency_freezed]: https://pub.dev/packages/freezed
+[dependency_freezed_annotation]: https://pub.dev/packages/freezed_annotation
+[dependency_flutter_bloc]: https://pub.dev/packages/flutter_bloc
+[dependency_isar]: https://pub.dev/packages/isar
+[dependency_isar_flutter_libs]: https://pub.dev/packages/isar_flutter_libs
+[dependency_isar_generator]: https://pub.dev/packages/isar_generator
+[dependency_dio]: https://pub.dev/packages/dio
+[dependency_internet_connection_checker]: https://pub.dev/packages/internet_connection_checker
+[dependency_cached_network_image]: https://pub.dev/packages/cached_network_image
+[dependency_flutter_cache_manager]: https://pub.dev/packages/flutter_cache_manager
+[dependency_path_provider]: https://pub.dev/packages/path_provider
+[dependency_get_it]: https://pub.dev/packages/get_it
+[dependency_mockito]: https://pub.dev/packages/mockito
+[dependency_bloc_test]: https://pub.dev/packages/bloc_test
 [useful_android_studio]: https://developer.android.com/studio
 [useful_virtual_device]: https://developer.android.com/studio/run/managing-avds.html
 [useful_developer_options]: https://developer.android.com/studio/debug/dev-options.html#enable

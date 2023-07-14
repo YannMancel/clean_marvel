@@ -5,14 +5,12 @@ import 'package:isar/isar.dart';
 ///
 /// ```dart
 /// final dir = await getApplicationDocumentsDirectory();
-///
-/// final isar = Isar.open(
+/// final isar = await Isar.open(
 ///   <CollectionSchema<dynamic>>[
 ///     ComicCharacterModelSchema,
 ///   ],
 ///   directory: dir.path,
 /// );
-///
 /// final localDataSource = ComicLocalDataSource(isar: isar);
 /// ```
 class ComicLocalDataSource implements ComicLocalDataSourceInterface {

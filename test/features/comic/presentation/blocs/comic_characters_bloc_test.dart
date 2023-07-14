@@ -8,13 +8,15 @@ import 'package:mockito/mockito.dart';
 import '../../../../helpers/helpers.dart';
 @GenerateNiceMocks(
   <MockSpec>[
-    MockSpec<GetComicCharacters>(),
+    MockSpec<UseCaseInterface<List<ComicCharacterEntity>>>(
+      as: #MockGetComicCharacters,
+    ),
   ],
 )
 import 'comic_characters_bloc_test.mocks.dart';
 
 void main() {
-  late GetComicCharacters useCase;
+  late UseCaseInterface<List<ComicCharacterEntity>> useCase;
   late ComicCharactersBloc bloc;
   late ComicCharactersEvent event;
 
@@ -37,11 +39,10 @@ void main() {
         event = const ComicCharactersEvent.started();
       });
 
-      blocTest(
-        'should emit 2 states, a loading state then data state when started '
-        'event is called.',
+      blocTest<ComicCharactersBloc, ComicCharactersState>(
+        'should emit 2 states, a loading state then data state.',
         setUp: () async {
-          when(useCase.execute()).thenAnswer((_) async => resultOfData);
+          when(useCase()).thenAnswer((_) async => resultOfData);
         },
         build: () => bloc,
         act: (bloc) => bloc.add(event),
@@ -50,17 +51,16 @@ void main() {
           ComicCharactersState.data(entities: entities),
         ],
         verify: (_) {
-          verify(useCase.execute()).called(1);
+          verify(useCase()).called(1);
           verifyNoMoreInteractions(useCase);
         },
       );
 
-      blocTest(
-        'should emit 2 states, a loading state then error state when started '
-        'event is called.',
+      blocTest<ComicCharactersBloc, ComicCharactersState>(
+        'should emit 2 states, a loading state then error state.',
         setUp: () async {
-          when(useCase.execute())
-              .thenAnswer((_) async => kResultOfErrorWithUnknownFailure);
+          when(useCase()).thenAnswer(
+              (_) async => resultOfError(exception: kUnknownFailure));
         },
         build: () => bloc,
         act: (bloc) => bloc.add(event),
@@ -69,7 +69,7 @@ void main() {
           ComicCharactersState.error(exception: kUnknownFailure),
         ],
         verify: (_) {
-          verify(useCase.execute()).called(1);
+          verify(useCase()).called(1);
           verifyNoMoreInteractions(useCase);
         },
       );
@@ -80,11 +80,10 @@ void main() {
         event = const ComicCharactersEvent.refreshed();
       });
 
-      blocTest(
-        'should emit 2 states, a loading state then data state when started '
-        'event is called.',
+      blocTest<ComicCharactersBloc, ComicCharactersState>(
+        'should emit 2 states, a loading state then data state.',
         setUp: () async {
-          when(useCase.execute()).thenAnswer((_) async => resultOfData);
+          when(useCase()).thenAnswer((_) async => resultOfData);
         },
         build: () => bloc,
         act: (bloc) => bloc.add(event),
@@ -93,17 +92,16 @@ void main() {
           ComicCharactersState.data(entities: entities),
         ],
         verify: (_) {
-          verify(useCase.execute()).called(1);
+          verify(useCase()).called(1);
           verifyNoMoreInteractions(useCase);
         },
       );
 
-      blocTest(
-        'should emit 2 states, a loading state then error state when started '
-        'event is called.',
+      blocTest<ComicCharactersBloc, ComicCharactersState>(
+        'should emit 2 states, a loading state then error state.',
         setUp: () async {
-          when(useCase.execute())
-              .thenAnswer((_) async => kResultOfErrorWithUnknownFailure);
+          when(useCase()).thenAnswer(
+              (_) async => resultOfError(exception: kUnknownFailure));
         },
         build: () => bloc,
         act: (bloc) => bloc.add(event),
@@ -112,7 +110,7 @@ void main() {
           ComicCharactersState.error(exception: kUnknownFailure),
         ],
         verify: (_) {
-          verify(useCase.execute()).called(1);
+          verify(useCase()).called(1);
           verifyNoMoreInteractions(useCase);
         },
       );
