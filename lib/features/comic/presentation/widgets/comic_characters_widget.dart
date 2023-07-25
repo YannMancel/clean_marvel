@@ -26,29 +26,35 @@ class ComicCharactersWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (_entities.isEmpty) {
-      return ScrollViewWithOnlyOneWidget(
-        builder: (_) => const Text('No data'),
+      return Semantics(
+        label: "Maestro - No entity",
+        child: ScrollViewWithOnlyOneWidget(
+          builder: (_) => const Text('No data'),
+        ),
       );
     }
 
-    return ListView.builder(
-      padding: const EdgeInsets.only(
-        left: 16.0,
-        right: 16.0,
-        bottom: 16.0,
-      ),
-      itemCount: _entities.length,
-      itemBuilder: (_, index) {
-        final entity = _entities[index];
+    return Semantics(
+      label: "Maestro - Entities",
+      child: ListView.builder(
+        padding: const EdgeInsets.only(
+          left: 16.0,
+          right: 16.0,
+          bottom: 16.0,
+        ),
+        itemCount: _entities.length,
+        itemBuilder: (_, index) {
+          final entity = _entities[index];
 
-        return Padding(
-          padding: const EdgeInsets.only(top: 16.0),
-          child: ComicCharacterCard(
-            entity,
-            key: ObjectKey(entity),
-          ),
-        );
-      },
+          return Padding(
+            padding: const EdgeInsets.only(top: 16.0),
+            child: ComicCharacterCard(
+              entity,
+              key: ObjectKey(entity),
+            ),
+          );
+        },
+      ),
     );
   }
 }

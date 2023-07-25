@@ -1,0 +1,10 @@
+appId: com.mancel.yann.clean_marvel
+# Use case:
+#    - If device is on Android, run android_flow.yaml
+#    - Else do nothing
+---
+
+- runFlow:
+    when:
+        platform: Android
+    file: android/android_flow.yaml

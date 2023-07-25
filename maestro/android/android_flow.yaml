@@ -1,0 +1,5 @@
+appId: com.mancel.yann.clean_marvel
+---
+
+- runFlow: "no_entity_flow.yaml"
+- runFlow: "entities_flow.yaml"

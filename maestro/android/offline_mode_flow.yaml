@@ -1,0 +1,25 @@
+appId: com.mancel.yann.clean_marvel
+# Use case:
+#    - Open Settings
+#    - Search and tap on element called "Connexions"
+#    - Search and tap on element called "Mode Hors Ligne"
+#    - Go to "Home"
+---
+
+- launchApp:
+    appId: "com.android.settings"
+
+- scrollUntilVisible:
+    element: "Connexions"
+    direction: DOWN
+- tapOn: "Connexions"
+
+- scrollUntilVisible:
+    element: "Mode Hors Ligne"
+    direction: DOWN
+- tapOn: "Mode Hors Ligne"
+
+- repeat:
+    times: 2
+    commands:
+        - back

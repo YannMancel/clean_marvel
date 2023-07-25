@@ -1,0 +1,27 @@
+appId: com.mancel.yann.clean_marvel
+# Use case:
+#    - Offline mode pass from false to true
+#    - First application launch
+#    - Locale data source is empty
+#    - Show "No data" message
+---
+
+- runFlow: "offline_mode_flow.yaml"
+
+- launchApp:
+    appId: "com.mancel.yann.clean_marvel"
+    clearState: true
+
+- waitForAnimationToEnd:
+    timeout: 2000
+
+- assertNotVisible:
+    text: "Maestro - Loading state"
+- assertVisible:
+    text: ".*Maestro - Data state.*"
+- assertVisible:
+    text: ".*Maestro - No entity.*"
+- assertNotVisible:
+    text: ".*Maestro - Entities.*"
+- assertNotVisible:
+    text: "Maestro - Error state"

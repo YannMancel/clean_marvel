@@ -106,6 +106,29 @@ generate-files: ## Generate files with build_runner
 
 ##
 ## ---------------------------------------------------------------
+## Maestro
+## ---------------------------------------------------------------
+##
+
+.PHONY: maestro-studio
+maestro-studio: ## Run Maestro Studio
+	@$(call print_color_message,"Run Maestro Studio")
+	maestro studio
+
+.PHONY: maestro-hierarchy
+maestro-hierarchy: ## Show hierarchy with Maestro
+	@$(call print_color_message,"Show hierarchy with Maestro")
+	maestro hierarchy
+
+.PHONY: maestro-test
+maestro-test: ## Run Maestro test
+	@$(call print_color_message,"Run Maestro test")
+	maestro test maestro/flow.yaml \
+		--format=junit \
+		--output=maestro/results.xml
+
+##
+## ---------------------------------------------------------------
 ## scrcpy
 ## ---------------------------------------------------------------
 ##

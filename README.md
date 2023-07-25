@@ -10,6 +10,7 @@
 * IDE (Android Studio or Visual Studio Code)
 * [fvm][dependency_fvm]
 * Account on [https://developer.marvel.com/][link_developer_marvel] (TIMESTAMP, API_KEY, HASH)
+* [maestro][dependency_maestro]
 
 ### Installation
 
@@ -88,7 +89,8 @@ comicCharacters {
 [badge_flutter]: https://img.shields.io/badge/flutter-v3.10.5-blue?logo=flutter
 [link_flutter_release]: https://docs.flutter.dev/development/tools/sdk/releases
 [link_developer_marvel]: https://developer.marvel.com/
-[dependencies_fvm]: https://fvm.app/
+[dependency_fvm]: https://fvm.app/
+[dependency_maestro]: https://maestro.mobile.dev/
 [dependency_flutter_lints]: https://pub.dev/packages/flutter_lints
 [dependency_build_runner]: https://pub.dev/packages/build_runner
 [dependency_freezed]: https://pub.dev/packages/freezed

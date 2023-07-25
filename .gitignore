@@ -60,3 +60,6 @@ libisar.dylib
 
 # Test
 coverage/
+
+# Maestro
+maestro/results.xml

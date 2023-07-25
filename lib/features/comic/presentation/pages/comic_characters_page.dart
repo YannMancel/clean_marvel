@@ -46,9 +46,13 @@ class ComicCharactersPage extends StatelessWidget {
               loading: () => ScrollViewWithOnlyOneWidget(
                 builder: (_) => const CircularProgressIndicator.adaptive(
                   key: loadingKey,
+                  semanticsLabel: 'Maestro - Loading state',
                 ),
               ),
-              data: (entities) => ComicCharactersWidget(entities),
+              data: (entities) => Semantics(
+                label: 'Maestro - Data state',
+                child: ComicCharactersWidget(entities),
+              ),
               error: (exception) => ScrollViewWithOnlyOneWidget(
                 builder: (_) => Text(
                   exception is Failure
@@ -58,6 +62,7 @@ class ComicCharactersPage extends StatelessWidget {
                           unknown: () => 'Unknown error',
                         )
                       : 'No catch error',
+                  semanticsLabel: 'Maestro - Error state',
                 ),
               ),
             ),
