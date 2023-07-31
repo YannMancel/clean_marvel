@@ -1,0 +1,41 @@
+name: clean_marvel_CI
+
+on:
+    push:
+        branches:
+            - master
+
+jobs:
+    clean-marvel-CI:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Make git clone
+              uses: actions/checkout@v2
+
+            - name: Setup fvm
+              uses: kuhnroyal/flutter-fvm-config-action@v1
+              with:
+                  path: '.fvm/fvm_config.json'
+
+            - name: Clone flutter version
+              uses: subosito/flutter-action@v1
+              with:
+                  flutter-version: ${{ env.FLUTTER_VERSION }}
+                  channel: ${{ env.FLUTTER_CHANNEL }}
+
+            - name: Update dependencies
+              run: flutter pub get
+
+            - name: Generate files with build_runner
+              run: flutter pub run build_runner build --delete-conflicting-outputs
+
+            - name: Analyze Dart code of the project
+              run: flutter analyze .
+
+            - name: run tests
+              run: flutter test --concurrency=1 --coverage --test-randomize-ordering-seed random
+
+            - name: Upload coverage reports to Codecov
+              uses: codecov/codecov-action@v3
+              env:
+                  CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}

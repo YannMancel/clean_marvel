@@ -1,4 +1,6 @@
 [![badge_flutter]][link_flutter_release]
+![badge_github_action]
+[![badge_codecov]][link_codecov]
 
 # clean_marvel
 **Goal**: A Flutter project to learn clean architecture.
@@ -87,7 +89,10 @@ comicCharacters {
 * [Enable developer options and debugging][useful_developer_options]
 
 [badge_flutter]: https://img.shields.io/badge/flutter-v3.10.5-blue?logo=flutter
+[badge_github_action]: https://github.com/YannMancel/clean_marvel/actions/workflows/clean_marvel_CI.yaml/badge.svg
+[badge_codecov]: https://codecov.io/gh/YannMancel/clean_marvel/branch/master/graph/badge.svg?token=35TQUQL0RB
 [link_flutter_release]: https://docs.flutter.dev/development/tools/sdk/releases
+[link_codecov]: https://codecov.io/gh/YannMancel/clean_marvel
 [link_developer_marvel]: https://developer.marvel.com/
 [dependency_fvm]: https://fvm.app/
 [dependency_maestro]: https://maestro.mobile.dev/

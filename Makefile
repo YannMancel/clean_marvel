@@ -25,7 +25,6 @@ install: ## Install environment
 	@$(call print_color_message,"Install environment")
 	fvm install $(FLUTTER_VERSION)
 	fvm use $(FLUTTER_VERSION)
-	$(FLUTTER) pub run build_runner build
 	$(FLUTTER) pub global activate devtools
 
 ##
