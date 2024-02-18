@@ -14,7 +14,7 @@
 * Account on [https://developer.marvel.com/][link_developer_marvel] (TIMESTAMP, API_KEY, HASH)
 * [maestro][dependency_maestro]
 
-### Installation
+### Setup
 
 ```sh
 # Download the project code
@@ -88,7 +88,7 @@ comicCharacters {
 * [Create a new virtual device][useful_virtual_device]
 * [Enable developer options and debugging][useful_developer_options]
 
-[badge_flutter]: https://img.shields.io/badge/flutter-v3.10.5-blue?logo=flutter
+[badge_flutter]: https://img.shields.io/badge/flutter-v3.16.3-blue?logo=flutter
 [badge_github_action]: https://github.com/YannMancel/clean_marvel/actions/workflows/clean_marvel_CI.yaml/badge.svg
 [badge_codecov]: https://codecov.io/gh/YannMancel/clean_marvel/branch/master/graph/badge.svg?token=35TQUQL0RB
 [link_flutter_release]: https://docs.flutter.dev/development/tools/sdk/releases

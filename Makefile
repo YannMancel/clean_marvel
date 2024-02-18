@@ -1,5 +1,5 @@
 
-FLUTTER_VERSION?=3.10.5
+FLUTTER_VERSION?=3.16.3
 FLUTTER?=fvm flutter
 REPOSITORIES?=lib/ test/
 RUN_VERSION?=--debug
