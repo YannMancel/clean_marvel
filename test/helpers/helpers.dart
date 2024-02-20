@@ -2,8 +2,7 @@ import 'dart:convert' as json;
 import 'dart:io';
 
 import 'package:clean_marvel/core/_core.dart';
-import 'package:clean_marvel/features/comic/data/_data.dart';
-import 'package:clean_marvel/features/comic/domain/_domain.dart';
+import 'package:clean_marvel/features/_features.dart';
 
 // CONVERTOR -------------------------------------------------------------------
 String convertFileToString({required String path}) {
@@ -17,24 +16,22 @@ Map<String, dynamic> convertFileToJson({required String path}) {
 
 // MODEL -----------------------------------------------------------------------
 const kModel = ComicCharacterModel(
+  localId: 42,
   name: '3-D Man',
-  imageUrl: 'http://i.annihil.us/u/prod/marvel/i/mg/c/e0/'
-      '535fecbbb9784.jpg',
+  imageUrl: 'http://i.annihil.us/u/prod/marvel/i/mg/c/e0/535fecbbb9784.jpg',
 );
-const kModels = <ComicCharacterModel>[kModel];
-const kModelJson = <String, dynamic>{
-  'name': '3-D Man',
-  'imageUrl': 'http://i.annihil.us/u/prod/marvel/i/mg/c/e0/'
-      '535fecbbb9784.jpg',
-};
-
-// ENTITY ----------------------------------------------------------------------
-const kEmptyEntity = ComicCharacterModel(
+const kEmptyModel = ComicCharacterModel(
   name: '',
   imageUrl: '',
 );
-final entity = kModel.convertToEntity;
-final entities = kModels.map((model) => model.convertToEntity).toList();
+const kModels = <ComicCharacterModel>[kModel];
+
+// ENTITY ----------------------------------------------------------------------
+const kEntity = ComicCharacterEntity(
+  name: '3-D Man',
+  imageUrl: 'http://i.annihil.us/u/prod/marvel/i/mg/c/e0/535fecbbb9784.jpg',
+);
+final entities = <ComicCharacterEntity>[kEntity];
 
 // ERROR -----------------------------------------------------------------------
 final basicException = Exception();

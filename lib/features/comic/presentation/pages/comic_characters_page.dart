@@ -1,5 +1,5 @@
 import 'package:clean_marvel/core/_core.dart';
-import 'package:clean_marvel/features/comic/presentation/_presentation.dart';
+import 'package:clean_marvel/features/_features.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -36,12 +36,10 @@ class ComicCharactersPage extends StatelessWidget {
         ),
         body: RefreshIndicator(
           onRefresh: () async {
-            context.read<ComicCharactersBloc>().add(
-                  const ComicCharactersEvent.refreshed(),
-                );
+            const kEvent = ComicCharactersEvent.refreshed();
+            context.read<ComicCharactersBloc>().add(kEvent);
           },
           child: BlocBuilder<ComicCharactersBloc, ComicCharactersState>(
-            buildWhen: (previous, current) => previous != current,
             builder: (_, state) => state.when<Widget>(
               loading: () => ScrollViewWithOnlyOneWidget(
                 builder: (_) => const CircularProgressIndicator.adaptive(
@@ -56,7 +54,7 @@ class ComicCharactersPage extends StatelessWidget {
               error: (exception) => ScrollViewWithOnlyOneWidget(
                 builder: (_) => Text(
                   exception is Failure
-                      ? exception.when(
+                      ? exception.when<String>(
                           server: () => 'Server error',
                           cache: () => 'Cache error',
                           unknown: () => 'Unknown error',

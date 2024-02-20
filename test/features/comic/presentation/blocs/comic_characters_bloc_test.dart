@@ -1,6 +1,5 @@
 import 'package:bloc_test/bloc_test.dart';
-import 'package:clean_marvel/features/comic/domain/_domain.dart';
-import 'package:clean_marvel/features/comic/presentation/_presentation.dart';
+import 'package:clean_marvel/features/_features.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
@@ -8,15 +7,13 @@ import 'package:mockito/mockito.dart';
 import '../../../../helpers/helpers.dart';
 @GenerateNiceMocks(
   <MockSpec>[
-    MockSpec<UseCaseInterface<List<ComicCharacterEntity>>>(
-      as: #MockGetComicCharacters,
-    ),
+    MockSpec<UseCase<List<ComicCharacterEntity>>>(as: #MockGetComicCharacters),
   ],
 )
 import 'comic_characters_bloc_test.mocks.dart';
 
 void main() {
-  late UseCaseInterface<List<ComicCharacterEntity>> useCase;
+  late UseCase<List<ComicCharacterEntity>> useCase;
   late ComicCharactersBloc bloc;
   late ComicCharactersEvent event;
 

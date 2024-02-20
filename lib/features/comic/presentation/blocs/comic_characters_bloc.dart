@@ -1,14 +1,13 @@
 import 'dart:async';
 
-import 'package:clean_marvel/features/comic/domain/_domain.dart';
-import 'package:clean_marvel/features/comic/presentation/_presentation.dart';
+import 'package:clean_marvel/features/_features.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ComicCharactersBloc
     extends Bloc<ComicCharactersEvent, ComicCharactersState> {
   ComicCharactersBloc({
     ComicCharactersState? initialState,
-    required UseCaseInterface<List<ComicCharacterEntity>> useCase,
+    required UseCase<List<ComicCharacterEntity>> useCase,
   })  : _useCase = useCase,
         super(
           initialState ?? const ComicCharactersState.loading(),
@@ -17,7 +16,7 @@ class ComicCharactersBloc
     on<RefreshedEvent>(_onRefreshed);
   }
 
-  final UseCaseInterface<List<ComicCharacterEntity>> _useCase;
+  final UseCase<List<ComicCharacterEntity>> _useCase;
 
   FutureOr<void> _onStarted(
     StartedEvent event,

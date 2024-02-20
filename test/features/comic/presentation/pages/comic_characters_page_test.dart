@@ -1,6 +1,5 @@
 import 'package:clean_marvel/core/_core.dart';
-import 'package:clean_marvel/features/comic/domain/_domain.dart';
-import 'package:clean_marvel/features/comic/presentation/_presentation.dart';
+import 'package:clean_marvel/features/_features.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -10,7 +9,7 @@ import '../../../../helpers/helpers.dart';
 import '../blocs/comic_characters_bloc_test.mocks.dart';
 
 void main() {
-  late UseCaseInterface<List<ComicCharacterEntity>> useCase;
+  late UseCase<List<ComicCharacterEntity>> useCase;
   late Widget widget;
 
   group('ComicCharactersPage', () {
@@ -30,14 +29,12 @@ void main() {
             ),
           ),
         );
-
         final properties = widget.toDiagnosticsNode().getProperties();
         final propertyOrNull = properties
             .where(
               (node) => node.name == ComicCharactersPage.titlePropertyName,
             )
             .firstOrNull;
-
         expect(propertyOrNull, isNotNull);
         expect(propertyOrNull!.value, isA<String>());
         expect(propertyOrNull.value, kAppTitle);
@@ -56,7 +53,6 @@ void main() {
           ),
         ),
       );
-
       expect(find.byKey(ComicCharactersPage.loadingKey), findsOneWidget);
       expect(find.byType(ComicCharactersWidget), findsNothing);
       expect(find.text('error'), findsNothing);
@@ -74,7 +70,6 @@ void main() {
           ),
         ),
       );
-
       expect(find.byKey(ComicCharactersPage.loadingKey), findsNothing);
       expect(find.byType(ComicCharactersWidget), findsOneWidget);
       expect(find.text('error'), findsNothing);
@@ -97,7 +92,6 @@ void main() {
             ),
           ),
         );
-
         expect(find.byKey(ComicCharactersPage.loadingKey), findsNothing);
         expect(find.byType(ComicCharactersWidget), findsNothing);
         expect(find.text(errorLabel), findsOneWidget);
@@ -126,7 +120,6 @@ void main() {
 
     testWidgets('should have a refresh event.', (tester) async {
       when(useCase()).thenAnswer((_) async => resultOfData);
-
       await tester.pumpWidget(
         MaterialApp(
           home: BlocProvider<ComicCharactersBloc>(
@@ -136,21 +129,18 @@ void main() {
         ),
       );
       await tester.pump();
-
       await tester.fling(
         find.byKey(ComicCharactersPage.loadingKey),
         const Offset(0.0, 300.0),
         1000.0,
       );
       await tester.pump();
-
       // finish the scroll animation
       await tester.pump(const Duration(seconds: 1));
       // finish the indicator settle animation
       await tester.pump(const Duration(seconds: 1));
       // finish the indicator hide animation
       await tester.pump(const Duration(seconds: 1));
-
       await untilCalled(useCase());
       verify(useCase()).called(1);
     });

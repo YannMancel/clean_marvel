@@ -1,5 +1,4 @@
-import 'package:clean_marvel/features/comic/domain/_domain.dart';
-import 'package:clean_marvel/features/comic/presentation/_presentation.dart';
+import 'package:clean_marvel/features/_features.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -22,14 +21,12 @@ void main() {
         'should have no entity in its properties.',
         (tester) async {
           await tester.pumpWidget(material);
-
           final properties = widget.toDiagnosticsNode().getProperties();
           final propertyOrNull = properties.where(
             (node) {
               return node.name == ComicCharactersWidget.entitiesPropertyName;
             },
           ).firstOrNull;
-
           expect(propertyOrNull, isNotNull);
           expect(propertyOrNull!.value, isA<List<ComicCharacterEntity>>());
           expect(propertyOrNull.value, List<ComicCharacterEntity>.empty());
@@ -38,7 +35,6 @@ void main() {
 
       testWidgets('should display a correct message.', (tester) async {
         await tester.pumpWidget(material);
-
         expect(find.text('No data'), findsOneWidget);
         expect(find.byType(ListView), findsNothing);
       });
@@ -54,14 +50,12 @@ void main() {
         'should have no entity in its properties.',
         (tester) async {
           await tester.pumpWidget(material);
-
           final properties = widget.toDiagnosticsNode().getProperties();
           final propertyOrNull = properties.where(
             (node) {
               return node.name == ComicCharactersWidget.entitiesPropertyName;
             },
           ).firstOrNull;
-
           expect(propertyOrNull, isNotNull);
           expect(propertyOrNull!.value, isA<List<ComicCharacterEntity>>());
           expect(propertyOrNull.value, entities);
@@ -70,7 +64,6 @@ void main() {
 
       testWidgets('should display a list of card.', (tester) async {
         await tester.pumpWidget(material);
-
         expect(find.text('No data'), findsNothing);
         expect(find.byType(ListView), findsOneWidget);
         expect(find.byType(ComicCharacterCard), findsWidgets);

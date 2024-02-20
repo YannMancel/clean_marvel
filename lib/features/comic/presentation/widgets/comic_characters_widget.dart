@@ -1,6 +1,5 @@
 import 'package:clean_marvel/core/_core.dart';
-import 'package:clean_marvel/features/comic/domain/_domain.dart';
-import 'package:clean_marvel/features/comic/presentation/_presentation.dart';
+import 'package:clean_marvel/features/_features.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -45,13 +44,9 @@ class ComicCharactersWidget extends StatelessWidget {
         itemCount: _entities.length,
         itemBuilder: (_, index) {
           final entity = _entities[index];
-
           return Padding(
             padding: const EdgeInsets.only(top: 16.0),
-            child: ComicCharacterCard(
-              entity,
-              key: ObjectKey(entity),
-            ),
+            child: ComicCharacterCard(entity, key: ObjectKey(entity)),
           );
         },
       ),

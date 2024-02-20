@@ -1,1 +1,1 @@
-export 'comic_repository_interface.dart';
+export 'comic_character_repository.dart';

@@ -1,61 +1,78 @@
-import 'package:clean_marvel/core/_core.dart';
-import 'package:clean_marvel/features/comic/domain/_domain.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:clean_marvel/features/_features.dart';
+import 'package:flutter/foundation.dart';
 import 'package:isar/isar.dart';
 
-part 'comic_character_model.freezed.dart';
 part 'comic_character_model.g.dart';
 
-@freezed
 @Collection(
-  accessor: kComicCharacters,
-  ignore: {
-    'copyWith',
-    'convertToEntity',
+  ignore: <String>{
+    'equality',
+    'hashCode',
   },
 )
-class ComicCharacterModel with _$ComicCharacterModel {
-  const ComicCharacterModel._();
+@Name("comic_characters")
+class ComicCharacterModel {
+  const ComicCharacterModel({
+    this.localId = Isar.autoIncrement,
+    required this.name,
+    required this.imageUrl,
+  });
 
-  const factory ComicCharacterModel({
-    required String name,
-    required String imageUrl,
-  }) = _Model;
+  @Name("id")
+  final Id localId;
+  @Index(unique: true)
+  final String name;
+  @Name("image_url")
+  final String imageUrl;
 
-  factory ComicCharacterModel.fromJson(Map<String, dynamic> json) {
-    final kNameKey = Api.kCharacters.kJson.kName;
-    final kThumbnailKey = Api.kCharacters.kJson.kThumbnail;
-    final kPathKey = Api.kCharacters.kJson.kPath;
-    final kExtensionKey = Api.kCharacters.kJson.kExtension;
-
-    final name = json[kNameKey] ?? '';
-    final thumbnailOrNull = json[kThumbnailKey] as Map<String, dynamic>?;
-    final hasPathKey = thumbnailOrNull?.containsKey(kPathKey) ?? false;
-    final hasExtensionKey =
-        thumbnailOrNull?.containsKey(kExtensionKey) ?? false;
-    final imageUrl = hasPathKey && hasExtensionKey
-        ? '${thumbnailOrNull![kPathKey]}.${thumbnailOrNull[kExtensionKey]}'
-        : '';
-
-    return ComicCharacterModel(
-      name: name,
-      imageUrl: imageUrl,
-    );
+  // id is not take into account in equality.
+  // It not important for network api.
+  @visibleForTesting
+  ({String name, String imageUrl}) equality() {
+    return (name: name, imageUrl: imageUrl);
   }
 
-  Id get id => Isar.autoIncrement;
-
-  Map<String, dynamic> toJson() {
-    return <String, dynamic>{
-      Api.kCharacters.kJson.kName: name,
-      kImageUrl: imageUrl,
-    };
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is ComicCharacterModel && equality() == other.equality());
   }
 
+  @override
+  int get hashCode => Object.hash(name, imageUrl);
+}
+
+extension ComicCharacterModelExt on ComicCharacterModel {
   ComicCharacterEntity get convertToEntity {
     return ComicCharacterEntity(
       name: name,
       imageUrl: imageUrl,
     );
+  }
+
+  ComicCharacterModel copyWith({
+    Id? localId,
+    String? name,
+    String? imageUrl,
+  }) {
+    return ComicCharacterModel(
+      localId: localId ?? this.localId,
+      name: name ?? this.name,
+      imageUrl: imageUrl ?? this.imageUrl,
+    );
+  }
+}
+
+extension ComicCharacterModelsExt on List<ComicCharacterModel> {
+  List<Id> get localIds {
+    return <Id>[
+      for (final model in this) model.localId,
+    ];
+  }
+
+  List<ComicCharacterEntity> get convertToEntities {
+    return <ComicCharacterEntity>[
+      for (final model in this) model.convertToEntity,
+    ];
   }
 }

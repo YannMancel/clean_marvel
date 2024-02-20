@@ -1,4 +1,4 @@
-import 'package:clean_marvel/features/comic/domain/_domain.dart';
+import 'package:clean_marvel/features/_features.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'comic_characters_state.freezed.dart';

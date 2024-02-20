@@ -1,5 +1,5 @@
 import 'package:clean_marvel/core/_core.dart';
-import 'package:clean_marvel/features/comic/domain/_domain.dart';
+import 'package:clean_marvel/features/_features.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 

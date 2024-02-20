@@ -69,10 +69,10 @@ make run TIMESTAMP=[TIMESTAMP] API_KEY=[API_KEY] HASH=[HASH]
 erDiagram
 
 %% Entity %%
-comicCharacters {
+comic_characters {
   int id
   String name
-  String imageUrl
+  String image_url
 }
 ```
 

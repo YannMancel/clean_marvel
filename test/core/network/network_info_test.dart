@@ -9,19 +9,19 @@ import 'package:mockito/mockito.dart';
     MockSpec<InternetConnectionChecker>(),
   ],
 )
-import 'network_data_test.mocks.dart';
+import 'network_info_test.mocks.dart';
 
 void main() {
-  late MockInternetConnectionChecker connectionChecker;
-  late NetworkData networkData;
+  late InternetConnectionChecker connectionChecker;
+  late NetworkInfo networkInfo;
 
   group(
-    'NetworkData',
+    'NetworkInfo',
     () {
       setUp(
         () {
           connectionChecker = MockInternetConnectionChecker();
-          networkData = NetworkData(
+          networkInfo = NetworkInfoByInternetConnectionChecker(
             connectionChecker: connectionChecker,
           );
         },
@@ -31,9 +31,7 @@ void main() {
         'should return true when isConnected is called',
         () async {
           when(connectionChecker.hasConnection).thenAnswer((_) async => true);
-
-          final isConnected = await networkData.isConnected;
-
+          final isConnected = await networkInfo.isConnected;
           expect(isConnected, isTrue);
           verify(connectionChecker.hasConnection).called(1);
           verifyNoMoreInteractions(connectionChecker);
@@ -44,9 +42,7 @@ void main() {
         'should return false when isConnected is called',
         () async {
           when(connectionChecker.hasConnection).thenAnswer((_) async => false);
-
-          final isConnected = await networkData.isConnected;
-
+          final isConnected = await networkInfo.isConnected;
           expect(isConnected, isFalse);
           verify(connectionChecker.hasConnection).called(1);
           verifyNoMoreInteractions(connectionChecker);

@@ -1,5 +1,5 @@
 import 'package:clean_marvel/core/_core.dart';
-import 'package:clean_marvel/features/comic/presentation/_presentation.dart';
+import 'package:clean_marvel/features/_features.dart';
 import 'package:clean_marvel/service_locator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -18,11 +18,8 @@ class App extends StatelessWidget {
       ),
       home: BlocProvider<ComicCharactersBloc>(
         create: (_) {
-          final bloc = getIt<ComicCharactersBloc>()
-            ..add(
-              const ComicCharactersEvent.started(),
-            );
-          return bloc;
+          const kEvent = ComicCharactersEvent.started();
+          return getIt<ComicCharactersBloc>()..add(kEvent);
         },
         child: const ComicCharactersPage(title: kAppTitle),
       ),
