@@ -29,8 +29,15 @@ make dependencies
 # Generate files with build_runner
 make generate-files
 
+# Create env.json with format
+# {
+#   "ts": "[TIMESTAMP]",
+#   "apikey": "[API_KEY]",
+#   "hash": "[HASH]"
+# }
+
 # Run application by default debug version
-make run TIMESTAMP=[TIMESTAMP] API_KEY=[API_KEY] HASH=[HASH]
+make run
 ```
 
 ## Dependencies

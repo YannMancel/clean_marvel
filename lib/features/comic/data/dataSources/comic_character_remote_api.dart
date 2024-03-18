@@ -52,9 +52,9 @@ class ComicCharacterRemoteApiImpl
     return _remoteApi.get(
       endPoint: '/v1/public/characters',
       queryParameters: const <String, dynamic>{
-        'ts': String.fromEnvironment('TIMESTAMP'),
-        'apikey': String.fromEnvironment('API_KEY'),
-        'hash': String.fromEnvironment('HASH'),
+        'ts': String.fromEnvironment('ts'),
+        'apikey': String.fromEnvironment('apikey'),
+        'hash': String.fromEnvironment('hash'),
       },
       on200: fromJson,
     );

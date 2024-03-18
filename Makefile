@@ -3,9 +3,6 @@ FLUTTER_VERSION?=3.16.3
 FLUTTER?=fvm flutter
 REPOSITORIES?=lib/ test/
 RUN_VERSION?=--debug
-TIMESTAMP=[TIMESTAMP]
-API_KEY=[API_KEY]
-HASH=[HASH]
 
 GREEN_COLOR=\033[32m
 NO_COLOR=\033[0m
@@ -88,9 +85,7 @@ run: ## Run application by default debug version
 	@$(call print_color_message,"Run application by default debug version")
 	$(FLUTTER) run \
 		$(RUN_VERSION) \
-		--dart-define TIMESTAMP=$(TIMESTAMP) \
-		--dart-define API_KEY=$(API_KEY) \
-		--dart-define HASH=$(HASH)
+		--dart-define-from-file=env.json
 
 ##
 ## ---------------------------------------------------------------

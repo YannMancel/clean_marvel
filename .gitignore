@@ -63,3 +63,6 @@ coverage/
 
 # Maestro
 maestro/results.xml
+
+# Environment
+env.json
